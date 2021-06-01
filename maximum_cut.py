@@ -23,6 +23,8 @@ import matplotlib
 matplotlib.use("agg")
 from matplotlib import pyplot as plt
 
+import dwave.inspector
+
 # ------- Set up our graph -------
 
 # Create empty graph
@@ -48,7 +50,7 @@ chainstrength = 8
 numruns = 10
 
 # Run the QUBO on the solver from your config file
-sampler = EmbeddingComposite(DWaveSampler())
+sampler = EmbeddingComposite(DWaveSampler(solver={'qpu':True}))
 response = sampler.sample_qubo(Q,
                                chain_strength=chainstrength,
                                num_reads=numruns,
@@ -88,3 +90,5 @@ nx.draw_networkx_labels(G, pos)
 filename = "maxcut_plot.png"
 plt.savefig(filename, bbox_inches='tight')
 print("\nYour plot is saved to {}".format(filename))
+
+dwave.inspector.show(Q, response)
